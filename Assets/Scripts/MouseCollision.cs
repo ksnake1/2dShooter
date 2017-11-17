@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MouseCollision : MonoBehaviour {
 
-	//[SerializeField]
-	//GameController gameController;
+	[SerializeField]
+	GameController gameController;
 
 	[SerializeField]
 	GameObject explosion;
@@ -26,22 +26,23 @@ public class MouseCollision : MonoBehaviour {
 	public void OnTriggerEnter2D(Collider2D other){
 
 
-		if (other.gameObject.tag.Equals ("island")) {
-			Debug.Log ("Collision island\n");
+		if (other.gameObject.tag.Equals ("cake")) {
+			Debug.Log ("Collision cake\n");
 			if (_islandSound != null) {
 				_islandSound.Play ();
 			}
 			//Add points
+			gameController.Score += 100;
 			//Player.Instance.Score+=100;
-		}else if(other.gameObject.tag.Equals ("enemy")){
-			Debug.Log ("Collision enemy\n");
+		}else if(other.gameObject.tag.Equals ("bomb")){
+			Debug.Log ("Collision bomb\n");
+			other.gameObject.GetComponent<BombController>().Reset ();
+			//Instantiate (explosion).GetComponent<Transform> ().position = other.gameObject.GetComponent<Transform> ().position;
 
-			Instantiate (explosion).GetComponent<Transform> ().position = other.gameObject.GetComponent<Transform> ().position;
-
-			//other.gameObject.GetComponent<RocketController> ().Reset ();
+			gameController.Life -= 1;
 			//Player.Instance.Life-=1;
 
-			StartCoroutine( "Blink");
+			//StartCoroutine( "Blink");
 		}
 
 	}
