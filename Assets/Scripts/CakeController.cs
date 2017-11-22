@@ -44,10 +44,11 @@ public class CakeController : MonoBehaviour {
 		
 	}
 
-	private void Reset(){
+	public void Reset(){
 
 		float y = Random.Range (startY, endY);
 		float dx = Random.Range (0, 300);
 		_currentPos = new Vector2 (startX + dx, y);
+		_transform.position = _currentPos;
 	}
 }

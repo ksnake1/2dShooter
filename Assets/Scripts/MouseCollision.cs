@@ -11,11 +11,14 @@ public class MouseCollision : MonoBehaviour {
 	GameObject explosion;
 
 
-	private AudioSource _islandSound;
+	private AudioSource _cakeSound;
+	private AudioSource _bombSound;
 
 	// Use this for initialization
 	void Start () {
-		_islandSound = gameObject.GetComponent<AudioSource> ();
+		
+		_bombSound = gameObject.GetComponents<AudioSource>()[0];
+		_cakeSound = gameObject.GetComponents<AudioSource> ()[1];
 	}
 	
 	// Update is called once per frame
@@ -28,19 +31,25 @@ public class MouseCollision : MonoBehaviour {
 
 		if (other.gameObject.tag.Equals ("cake")) {
 			Debug.Log ("Collision cake\n");
-			if (_islandSound != null) {
-				_islandSound.Play ();
+			if (_cakeSound != null) {
+				_cakeSound.Play ();
 			}
+
+			other.gameObject.GetComponent<CakeController>().Reset();
 			//Add points
-			gameController.Score += 100;
-			//Player.Instance.Score+=100;
+
+			Player.Instance.Score+=100;
 		}else if(other.gameObject.tag.Equals ("bomb")){
 			Debug.Log ("Collision bomb\n");
+			if (_bombSound != null) {
+				_bombSound.Play ();
+			}
+			Instantiate (explosion).GetComponent<Transform> ().position = other.gameObject.GetComponent<Transform> ().position;
 			other.gameObject.GetComponent<BombController>().Reset ();
-			//Instantiate (explosion).GetComponent<Transform> ().position = other.gameObject.GetComponent<Transform> ().position;
 
-			gameController.Life -= 1;
-			//Player.Instance.Life-=1;
+
+
+			Player.Instance.Life-=1;
 
 			//StartCoroutine( "Blink");
 		}

@@ -19,37 +19,11 @@ public class GameController : MonoBehaviour {
 	Button restartBtn;
 
 
-	public int _score = 0;
-	public int _life = 3;
 
-	public int Score{
-		get{
-			return _score;
-		}
-		set{ 
-			_score = value;
-			scoreLabel.text = "Score: " + _score;
-		}
-	}
-
-	public int Life{
-		get{
-			return _life;
-		}
-		set{ 
-			_life = value;
-			if (_life <= 0) {
-				gameOver ();
-			} 
-			else {
-				lifeLabel.text = "Life: " + _life;
-			}
-		}
-	}
 
 	private void initialize (){
-		Score = 0;
-		Life = 3;
+		Player.Instance.Score = 0;
+		Player.Instance.Life = 3;
 
 		gameOverLabel.gameObject.SetActive (false);
 		highScoreLabel.gameObject.SetActive (false);
@@ -59,7 +33,14 @@ public class GameController : MonoBehaviour {
 		scoreLabel.gameObject.SetActive (true);
 	}
 
-	private void gameOver(){
+	public void updateUI(){
+		scoreLabel.text = "Score: " + Player.Instance.Score;
+		lifeLabel.text = "Life: " + Player.Instance.Life;
+		highScoreLabel.text = "High Score: " + Player.Instance.HighScore;
+	}
+
+	public void gameOver(){
+		
 		gameOverLabel.gameObject.SetActive (true);
 		highScoreLabel.gameObject.SetActive (true);
 		restartBtn.gameObject.SetActive (true);
@@ -70,6 +51,7 @@ public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Player.Instance.gCtrl = this;
 		initialize ();
 	}
 	
@@ -77,4 +59,10 @@ public class GameController : MonoBehaviour {
 	void Update () {
 		
 	}
+
+	public void RestartBtnClick(){
+		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
+
+	}
+
 }

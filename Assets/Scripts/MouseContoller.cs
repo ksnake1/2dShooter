@@ -16,6 +16,10 @@ public class MouseContoller : MonoBehaviour {
 	private float rightX;
 
 
+
+
+	private int jumpHeight = 20;
+	private bool jumping = true;
 	private Transform _transform;
 	private Vector2 _currentPos;
 
@@ -30,8 +34,15 @@ public class MouseContoller : MonoBehaviour {
 	void Update () {
 
 		_currentPos = _transform.position;
-		if (Input.GetKey (KeyCode.UpArrow)) {
-			_currentPos += new Vector2 (0, speed);
+		if (Input.GetKeyDown (KeyCode.UpArrow)) {
+			jump ();
+		}
+		if (jumpHeight < 20 && jumping) {
+			
+			jump ();
+		}
+		if (jumpHeight <= 20 && !jumping) {
+			fall ();
 		}
 		if (Input.GetKey (KeyCode.DownArrow)) {
 			_currentPos -= new Vector2 (0, speed);
@@ -41,7 +52,10 @@ public class MouseContoller : MonoBehaviour {
 		}
 		if (Input.GetKey (KeyCode.RightArrow)) {
 			_currentPos += new Vector2 (speed, 0);
-		}
+		} 
+		/*else {
+			_currentPos -= new Vector2 (0, speed);
+		}*/
 		checkBounds();
 		_transform.position = _currentPos;
 	}
@@ -58,6 +72,27 @@ public class MouseContoller : MonoBehaviour {
 		}
 		if (_currentPos.x > rightX) {
 			_currentPos.x = rightX;
+		}
+	}
+
+	private void jump(){
+		if (jumpHeight > 0) {
+			_currentPos += new Vector2 (0, speed);
+			jumpHeight--;
+		} 
+		else {
+			jumping = false;
+		}
+		
+	}
+
+	private void fall(){
+		if (jumpHeight < 20) {
+			_currentPos -= new Vector2 (0, speed);
+			jumpHeight++;
+		} 
+		else {
+			jumping = true;
 		}
 	}
 }
