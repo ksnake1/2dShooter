@@ -44,6 +44,7 @@ public class Player {
 			if (_life <= 0) {
 				if (Score > HighScore) {
 					HighScore = Score;
+
 				}
 				gCtrl.gameOver ();
 			} 
@@ -60,7 +61,7 @@ public class Player {
 		}
 		set{ 
 			_highScore = value;
-			gCtrl.updateUI ();
+			gCtrl.newRecord ();
 
 		}
 	}

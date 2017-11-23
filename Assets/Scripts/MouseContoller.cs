@@ -5,26 +5,31 @@ using UnityEngine;
 public class MouseContoller : MonoBehaviour {
 
 	[SerializeField]
-	private float speed = 7f;
+	private float speed = 3f;
 	[SerializeField]
-	private float topY;
-	[SerializeField]
-	private float bottomY;
+	private float jumpSpeed = 7f;
 	[SerializeField]
 	private float leftX;
 	[SerializeField]
 	private float rightX;
+	[SerializeField]
+	private int jumpHeight = 80;
+	[SerializeField]
+	private int crawlHeight = 50;
 
 
+	private int jumpHeightCnt;
+	private bool jumping = false;
 
-
-	private int jumpHeight = 20;
-	private bool jumping = true;
+	private int crawlHeightCnt;
+	private bool crawling = false;
 	private Transform _transform;
 	private Vector2 _currentPos;
 
 	// Use this for initialization
 	void Start () {
+		jumpHeightCnt = jumpHeight;
+		crawlHeightCnt = crawlHeight;
 		_transform = gameObject.GetComponent<Transform> ();
 		_currentPos = _transform.position;
 		
@@ -34,23 +39,32 @@ public class MouseContoller : MonoBehaviour {
 	void Update () {
 
 		_currentPos = _transform.position;
-		if (Input.GetKeyDown (KeyCode.UpArrow)) {
+		if (Input.GetKeyDown (KeyCode.UpArrow) && jumpHeightCnt == jumpHeight && crawlHeightCnt == crawlHeight) {
+			jumping = true;
 			jump ();
 		}
-		if (jumpHeight < 20 && jumping) {
+		else if (jumping) {
 			
 			jump ();
 		}
-		if (jumpHeight <= 20 && !jumping) {
+		else if (jumpHeightCnt < jumpHeight && !jumping) {
 			fall ();
 		}
-		if (Input.GetKey (KeyCode.DownArrow)) {
-			_currentPos -= new Vector2 (0, speed);
+		else if (Input.GetKeyDown (KeyCode.DownArrow) && crawlHeightCnt == crawlHeight && jumpHeightCnt == jumpHeight) {
+			crawling = true;
+			crawlDown ();
 		}
-		if (Input.GetKey (KeyCode.LeftArrow)) {
+		else if (crawling) {
+
+			crawlDown ();
+		}
+		else if (crawlHeightCnt < crawlHeight && !crawling) {
+			crawlUp ();
+		}
+		if (Input.GetKey (KeyCode.LeftArrow) && crawlHeightCnt == crawlHeight) {
 			_currentPos -= new Vector2 (speed, 0);
 		}
-		if (Input.GetKey (KeyCode.RightArrow)) {
+		if (Input.GetKey (KeyCode.RightArrow) && crawlHeightCnt == crawlHeight) {
 			_currentPos += new Vector2 (speed, 0);
 		} 
 		/*else {
@@ -61,12 +75,12 @@ public class MouseContoller : MonoBehaviour {
 	}
 
 	private void checkBounds(){
-		if (_currentPos.y > topY) {
+		/*if (_currentPos.y > topY) {
 			_currentPos.y = topY;
 		}
 		if (_currentPos.y < bottomY) {
 			_currentPos.y = bottomY;
-		}
+		}*/
 		if (_currentPos.x < leftX) {
 			_currentPos.x = leftX;
 		}
@@ -76,23 +90,42 @@ public class MouseContoller : MonoBehaviour {
 	}
 
 	private void jump(){
-		if (jumpHeight > 0) {
-			_currentPos += new Vector2 (0, speed);
-			jumpHeight--;
+		if (jumpHeightCnt > 0) {
+			_currentPos += new Vector2 (0, jumpSpeed);
+			jumpHeightCnt--;
 		} 
 		else {
 			jumping = false;
+
 		}
 		
 	}
 
 	private void fall(){
-		if (jumpHeight < 20) {
-			_currentPos -= new Vector2 (0, speed);
-			jumpHeight++;
+		if (jumpHeightCnt < jumpHeight) {
+			_currentPos -= new Vector2 (0, jumpSpeed);
+			jumpHeightCnt++;
+		} 
+
+	}
+
+	private void crawlDown(){
+		if (crawlHeightCnt > 0) {
+			_currentPos -= new Vector2 (0, jumpSpeed);
+			crawlHeightCnt--;
 		} 
 		else {
-			jumping = true;
+			crawling = false;
+
 		}
+
+	}
+
+	private void crawlUp(){
+		if (crawlHeightCnt < crawlHeight) {
+			_currentPos += new Vector2 (0, jumpSpeed);
+			crawlHeightCnt++;
+		} 
+
 	}
 }

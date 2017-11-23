@@ -17,13 +17,16 @@ public class CakeController : MonoBehaviour {
 	private float endX;
 
 	//private variables
+	private AudioSource _bakeSound;
 	private Transform _transform;
 	private Vector2 _currentPos;
+	private bool isPlayed = false;
 
 	// Use this for initialization
 	void Start () {
 		_transform = gameObject.GetComponent<Transform> ();
 		_currentPos = _transform.position;
+		_bakeSound = gameObject.GetComponent<AudioSource> ();
 		Reset ();
 		
 	}
@@ -41,6 +44,11 @@ public class CakeController : MonoBehaviour {
 		}
 		//apply changes
 		_transform.position = _currentPos;
+		if (_currentPos.x <= 530 && !isPlayed) {
+			Debug.Log ("bake sound\n");
+			_bakeSound.Play ();
+			isPlayed = true;
+		}
 		
 	}
 
@@ -50,5 +58,6 @@ public class CakeController : MonoBehaviour {
 		float dx = Random.Range (0, 300);
 		_currentPos = new Vector2 (startX + dx, y);
 		_transform.position = _currentPos;
+		isPlayed = false;
 	}
 }

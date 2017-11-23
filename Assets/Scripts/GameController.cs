@@ -36,7 +36,8 @@ public class GameController : MonoBehaviour {
 	public void updateUI(){
 		scoreLabel.text = "Score: " + Player.Instance.Score;
 		lifeLabel.text = "Life: " + Player.Instance.Life;
-		highScoreLabel.text = "High Score: " + Player.Instance.HighScore;
+		highScoreLabel.text = "Score Record: " + Player.Instance.HighScore;
+
 	}
 
 	public void gameOver(){
@@ -63,6 +64,10 @@ public class GameController : MonoBehaviour {
 	public void RestartBtnClick(){
 		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
 
+	}
+
+	public void newRecord(){
+		highScoreLabel.text = "New Record: " + Player.Instance.HighScore + "!!!";
 	}
 
 }

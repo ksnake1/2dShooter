@@ -16,11 +16,13 @@ public class BombController : MonoBehaviour {
 	private Transform _tranform;
 	private Vector2 _currentSpeed;
 	private Vector2 _currentPos;
-
+	private AudioSource _shootingSound;
+	private bool isPlayed = false;
 
 	// Use this for initialization
 	void Start () {
 		_tranform = gameObject.GetComponent<Transform> ();
+		_shootingSound = gameObject.GetComponent<AudioSource> ();
 		Reset ();
 	}
 	
@@ -30,8 +32,13 @@ public class BombController : MonoBehaviour {
 		_currentPos -= _currentSpeed;
 		_tranform.position = _currentPos;
 
-		if (_currentPos.x <= -681) {
+		if (_currentPos.x <= -650) {
 			Reset ();
+		}
+		if (_currentPos.x <= 534 && !isPlayed){
+			Debug.Log ("shooting sound\n");
+			_shootingSound.Play();
+			isPlayed = true;
 		}
 	}
 
@@ -42,7 +49,8 @@ public class BombController : MonoBehaviour {
 		_currentSpeed = new Vector2 (xSpeed, ySpeed);
 
 		float y = Random.Range (-405, 414);
-		_tranform.position = new Vector2 (702 + Random.Range(0,100), y);
+		_tranform.position = new Vector2 (670 + Random.Range(0,1000), y);
+		isPlayed = false;
 
 
 
