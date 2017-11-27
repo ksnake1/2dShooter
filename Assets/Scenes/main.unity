@@ -682,6 +682,7 @@ MonoBehaviour:
   gameOverLabel: {fileID: 329903311}
   highScoreLabel: {fileID: 1945738093}
   restartBtn: {fileID: 1358668646}
+  Character: {fileID: 1444850060}
 --- !u!1 &1358668644
 GameObject:
   m_ObjectHideFlags: 0
@@ -1310,7 +1311,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: d290549dcd62844c99614b6e90b712a5, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.73
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1390,7 +1391,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2b1edd5761a6044a092f930ef40cd61b, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.776
   m_Pitch: 1
   Loop: 0
   Mute: 0
